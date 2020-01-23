@@ -1,0 +1,37 @@
+syntax = "proto3";
+option java_package = "generated";
+import "google/protobuf/empty.proto";
+
+message RoomInfo {
+    string name = 1;
+    int32 port = 2;
+    int32 capacity = 3;
+    int32 userCount = 4;
+}
+
+message Packet {
+    oneof message {
+        TestMessage testMessage = 1;
+        LoginRequest loginRequest = 2;
+        LoginResponse loginResponse = 3;
+    }
+}
+
+message TestMessage {
+    string string = 1;
+}
+
+message LoginRequest {
+    string username = 1;
+}
+
+message LoginResponse {
+    Status status = 1;
+    enum Status {
+        OK = 0;
+        FULL = 1;
+        NAME_TOO_SHORT = 2;
+        NAME_EXISTS = 3;
+        ALREADY_LOGGED_IN = 4;
+    }
+}

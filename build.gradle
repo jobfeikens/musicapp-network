@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'com.google.protobuf' version '0.8.10'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+
+    implementation 'com.github.jobfeikens:jobutil:38bbd20'
+    implementation "io.reactivex.rxjava3:rxjava:3.0.0-RC8"
+    implementation group: 'com.google.protobuf', name: 'protobuf-java', version: '3.11.1'
+    implementation group: 'com.google.guava', name: 'guava', version: '28.2-jre'
+    implementation 'org.jetbrains:annotations:15.0'
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.11.2'
+    }
+    generateProtoTasks {
+    }
+    generatedFilesBaseDir = "$projectDir/gen"
+}
+
+idea {
+    module {
+        generatedSourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java")
+    }
+}
+
+clean {
+    delete protobuf.generatedFilesBaseDir
+}
